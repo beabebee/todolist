@@ -131,7 +131,7 @@ function App() {
                       style={{ width: "100%" }}
                     />
                     {}
-                    <Button type="submit" text="Salvar" />
+                    <Button type="submit" text="Salvar" variant="secondary" />
                   </form>
                 ) : (
                   item.data

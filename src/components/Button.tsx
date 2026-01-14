@@ -1,6 +1,6 @@
 import "./Button.css";
 
-export type ButtonVariant = "primary" | "success" | "warning" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "success" | "warning" | "danger";
 
 export interface ButtonProps {
     text: string;

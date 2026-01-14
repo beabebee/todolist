@@ -72,3 +72,14 @@
   background-color: #ff6b6b;
   box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
 }
+
+.btn-secondary {
+  color: #e2466a;
+  border-color: #e2466a;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e2466a;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(226, 70, 106, 0.3);
+}
