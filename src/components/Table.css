@@ -1,0 +1,30 @@
+.custom-table {
+  width: 100%;
+  border: 2px solid #ffc2cd; 
+  border-radius: 20px;
+  padding: 20px; 
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-bottom: 20px;
+}
+
+.custom-table th {
+  border: 2px solid #ffc2cd;
+  border-radius: 12px;
+  padding: 12px;
+  color: #5c3a41;
+  font-weight: 600;
+  background-color: #fff0f3;
+}
+
+.custom-table td {
+  text-align: center;
+  padding: 12px;
+  color: #7a5c61;
+  border-bottom: 1px solid #ffeef1;
+  font-size: 0.95rem;
+}
+
+.custom-table tr:last-child td {
+  border-bottom: none;
+}

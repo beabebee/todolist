@@ -1,8 +1,9 @@
 import "./App.css";
 import { Button } from "./components/Button";
+import { Table, type TableColumn } from "./components/Table";
 import { useState, useEffect } from "react";
 
-interface DataProps {
+export interface DataProps {
   data: string;
   id: number;
 }
@@ -34,6 +35,15 @@ function App() {
     localStorage.setItem("completedData", JSON.stringify(completedData));
   }, [completedData]);
 
+  const activeColumns: TableColumn[] = [
+    { header: "Tarefa", width: "60%" },
+    { header: "Ações", width: "40%" },
+  ];
+
+  const completedColumns: TableColumn[] = [
+    { header: "Tarefas concluídas =D", width: "100%" },
+  ];
+
   return (
     <div className="container">
       <div className="title">
@@ -62,101 +72,84 @@ function App() {
         />
         <Button type="submit" text="Adicionar" />
       </form>
-      <br></br>
-      <table>
-        <thead>
-          <tr>
-            <th style={{ width: "60%" }}>Tarefa</th>
-            <th style={{ width: "40%" }}>Ações</th>
+      <br />
+
+      {}
+      <Table
+        columns={activeColumns}
+        data={data}
+        emptyMessage="Nenhuma tarefa por aqui..."
+        renderRow={(item) => (
+          <tr key={item.id}>
+            <td>
+              {editData !== null && editData.id === item.id ? (
+                <form
+                  onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                    e.preventDefault();
+                    if (!inputEditValue) return;
+                    setData((prev) =>
+                      prev.map((i) =>
+                        i.id === editData?.id
+                          ? { ...i, data: inputEditValue }
+                          : i
+                      )
+                    );
+                    setEditData(null);
+                    setInputEditValue("");
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Altere sua tarefa"
+                    value={inputEditValue}
+                    onChange={(e) => setInputEditValue(e.target.value)}
+                  />
+                  <Button type="submit" text="Salvar" />
+                </form>
+              ) : (
+                item.data
+              )}
+            </td>
+            <td className="acoes">
+              <Button
+                text="Concluir"
+                onClick={() => {
+                  setCompletedData((prev) => [...prev, item]);
+                  deleteTask(item.id);
+                }}
+                disabled={editData !== null}
+              />
+              <Button
+                text="Editar"
+                onClick={() => {
+                  setEditData(item);
+                  setInputEditValue(item.data);
+                }}
+                disabled={editData !== null}
+              />
+              <Button
+                text="Excluir"
+                onClick={() => deleteTask(item.id)}
+                disabled={editData !== null}
+              />
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 && (
-            <tr>
-              <td>Nenhuma tarefa por aqui...</td>
-            </tr>
-          )}
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>
-                {editData !== null && editData.id === item.id ? (
-                  <form
-                    onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                      e.preventDefault();
-                      if (!inputEditValue) return;
-                      setData((prev) =>
-                        prev.map((item) =>
-                          item.id === editData?.id
-                            ? { ...item, data: inputEditValue }
-                            : item
-                        )
-                      );
-                      setEditData(null);
-                      setInputEditValue("");
-                    }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Altere sua tarefa"
-                      value={inputEditValue}
-                      onChange={(e) => setInputEditValue(e.target.value)}
-                    />
-                    <Button type="submit" text="Salvar" />
-                  </form>
-                ) : (
-                  item.data
-                )}
-              </td>
-              <td className="acoes">
-                <Button
-                  text="Concluir"
-                  onClick={() => {
-                    // Atualiza completedData (o useEffect salvará automaticamente)
-                    setCompletedData((prev) => [...prev, item]);
-                    deleteTask(item.id);
-                  }}
-                  disabled={editData !== null}
-                />
-                <Button
-                  text="Editar"
-                  onClick={() => {
-                    setEditData(item);
-                    setInputEditValue(item.data);
-                  }}
-                  disabled={editData !== null}
-                />
-                <Button
-                  text="Excluir"
-                  onClick={() => deleteTask(item.id)}
-                  disabled={editData !== null}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        )}
+      />
 
       <br />
 
-      <table>
-        <thead>
-          <tr>
-            <th style={{ width: "100%" }}>Tarefas concluídas =D</th>
+      {}
+      <Table
+        columns={completedColumns}
+        data={completedData}
+        emptyMessage="Nenhuma tarefa concluída"
+        renderRow={(item) => (
+          <tr key={item.id}>
+            <td>{item.data}</td>
           </tr>
-        </thead>
-        <tbody>
-          {completedData.length === 0 && (
-            <tr>
-              <td>Nenhuma tarefa concluída</td>
-            </tr>
-          )}
-          {completedData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.data}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        )}
+      />
     </div>
   );
 }

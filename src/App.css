@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Poppins:wght@400;600&display=swap');
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,46 +7,70 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  color: #5c3a41;
 }
 
 .title {
   & h1 {
-    margin-bottom: 0;
+    font-family: 'Fredoka', cursive;
+    font-size: 3.5rem;
+    color: #e2466a;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    text-shadow: 4px 4px 0px #ffc2cd; 
   }
 
   & h5 {
-    margin-top: 5px;
-    color: #e2466a;;
+    margin-top: 0;
+    color: #e2466a;
+    opacity: 0.9;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
 }
 
-.container{
+.container {
   background-color: white;
   width: 60%;
-  border-radius: 20px;
-  box-shadow: 0px 0px 20px 10px #decbb5;
+  border-radius: 30px;
+  box-shadow: 0px 10px 40px rgba(226, 70, 106, 0.15);
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-form{
+form {
   display: flex;
   width: 100%;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
-table{
-  width: 100%;
-  border: 12x solid pink;
-  border-radius: 20px;
-  padding: 10px;
+form input {
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 2px solid #ffd1dc;
+  background-color: #fff9fa;
+  font-family: 'Poppins', sans-serif;
+  color: #5c3a41;
+  width: 60%;
+  outline: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
-th{
-  border: 2px solid pink;
-  border-radius: 10px;
+form input::placeholder {
+  color: #dcb5bc;
 }
 
-.acoes{
+form input:focus {
+  border-color: #e2466a;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(226, 70, 106, 0.1);
+}
+
+.acoes {
   display: flex;
   justify-content: center;
   gap: 10px;
