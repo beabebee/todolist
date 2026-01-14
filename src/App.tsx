@@ -35,6 +35,9 @@ function App() {
     localStorage.setItem("completedData", JSON.stringify(completedData));
   }, [completedData]);
 
+  const totalTasks = data.length + completedData.length;
+  const progressPercentage = totalTasks === 0 ? 0 : Math.round((completedData.length / totalTasks) * 100);
+
   const activeColumns: TableColumn[] = [
     { header: "Tarefa", width: "60%" },
     { header: "Ações", width: "40%" },
@@ -45,111 +48,138 @@ function App() {
   ];
 
   return (
-    <div className="container">
-      <div className="title">
-        <h1>TO DO LIST</h1>
-        <h5>Organize suas tarefas!</h5>
-      </div>
-      <form
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          if (!inputValue) return;
-          setData((prev) => [
-            ...prev,
-            {
-              data: inputValue,
-              id: Math.random(),
-            },
-          ]);
-          setInputValue("");
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Digite sua tarefa"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <Button type="submit" text="Adicionar" />
-      </form>
-      <br />
-
+    <div className="main-wrapper">
+      
       {}
-      <Table
-        columns={activeColumns}
-        data={data}
-        emptyMessage="Nenhuma tarefa por aqui..."
-        renderRow={(item) => (
-          <tr key={item.id}>
-            <td>
-              {editData !== null && editData.id === item.id ? (
-                <form
-                  onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                    e.preventDefault();
-                    if (!inputEditValue) return;
-                    setData((prev) =>
-                      prev.map((i) =>
-                        i.id === editData?.id
-                          ? { ...i, data: inputEditValue }
-                          : i
-                      )
-                    );
-                    setEditData(null);
-                    setInputEditValue("");
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
+      <div className="blob blob-3"></div>
+
+      <div className="container">
+        <div className="title">
+          <h1>TO DO LIST</h1>
+          <h5>Organize suas tarefas!</h5>
+        </div>
+
+        {}
+        <div className="progress-container">
+          <div className="progress-header">
+            <span>Seu progresso diário</span>
+            <span>{progressPercentage}%</span>
+          </div>
+          <div className="progress-bar-track">
+            <div 
+              className="progress-bar-fill" 
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+
+        <form
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            if (!inputValue) return;
+            setData((prev) => [
+              ...prev,
+              {
+                data: inputValue,
+                id: Math.random(),
+              },
+            ]);
+            setInputValue("");
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Digite sua tarefa"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          {}
+          <Button type="submit" text="Adicionar" />
+        </form>
+        <br />
+
+        <Table
+          columns={activeColumns}
+          data={data}
+          emptyMessage="Nenhuma tarefa por aqui..."
+          renderRow={(item) => (
+            <tr key={item.id}>
+              <td>
+                {editData !== null && editData.id === item.id ? (
+                  <form
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                      e.preventDefault();
+                      if (!inputEditValue) return;
+                      setData((prev) =>
+                        prev.map((i) =>
+                          i.id === editData?.id
+                            ? { ...i, data: inputEditValue }
+                            : i
+                        )
+                      );
+                      setEditData(null);
+                      setInputEditValue("");
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Altere sua tarefa"
+                      value={inputEditValue}
+                      onChange={(e) => setInputEditValue(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                    {}
+                    <Button type="submit" text="Salvar" />
+                  </form>
+                ) : (
+                  item.data
+                )}
+              </td>
+              <td className="acoes">
+                <Button
+                  text="Concluir"
+                  variant="success"
+                  onClick={() => {
+                    setCompletedData((prev) => [...prev, item]);
+                    deleteTask(item.id);
                   }}
-                >
-                  <input
-                    type="text"
-                    placeholder="Altere sua tarefa"
-                    value={inputEditValue}
-                    onChange={(e) => setInputEditValue(e.target.value)}
-                  />
-                  <Button type="submit" text="Salvar" />
-                </form>
-              ) : (
-                item.data
-              )}
-            </td>
-            <td className="acoes">
-              <Button
-                text="Concluir"
-                onClick={() => {
-                  setCompletedData((prev) => [...prev, item]);
-                  deleteTask(item.id);
-                }}
-                disabled={editData !== null}
-              />
-              <Button
-                text="Editar"
-                onClick={() => {
-                  setEditData(item);
-                  setInputEditValue(item.data);
-                }}
-                disabled={editData !== null}
-              />
-              <Button
-                text="Excluir"
-                onClick={() => deleteTask(item.id)}
-                disabled={editData !== null}
-              />
-            </td>
-          </tr>
-        )}
-      />
+                  disabled={editData !== null}
+                />
+                <Button
+                  text="Editar"
+                  variant="warning"
+                  onClick={() => {
+                    setEditData(item);
+                    setInputEditValue(item.data);
+                  }}
+                  disabled={editData !== null}
+                />
+                <Button
+                  text="Excluir"
+                  variant="danger"
+                  onClick={() => deleteTask(item.id)}
+                  disabled={editData !== null}
+                />
+              </td>
+            </tr>
+          )}
+        />
 
-      <br />
+        <br />
 
-      {}
-      <Table
-        columns={completedColumns}
-        data={completedData}
-        emptyMessage="Nenhuma tarefa concluída"
-        renderRow={(item) => (
-          <tr key={item.id}>
-            <td>{item.data}</td>
-          </tr>
-        )}
-      />
+        <Table
+          columns={completedColumns}
+          data={completedData}
+          emptyMessage="Nenhuma tarefa concluída"
+          renderRow={(item) => (
+            <tr key={item.id}>
+              <td>{item.data}</td>
+            </tr>
+          )}
+        />
+      </div>
     </div>
   );
 }

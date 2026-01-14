@@ -1,42 +1,128 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Poppins:wght@400;600&display=swap');
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  font-family: 'Poppins', sans-serif;
-  color: #5c3a41;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #fff0f3; 
 }
 
-.title {
-  & h1 {
-    font-family: 'Fredoka', cursive;
-    font-size: 3.5rem;
-    color: #e2466a;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-    text-shadow: 4px 4px 0px #ffc2cd; 
-  }
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fff0f3;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffc2cd;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e2466a;
+}
 
-  & h5 {
-    margin-top: 0;
-    color: #e2466a;
-    opacity: 0.9;
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  color: #5c3a41;
+  position: relative;
+}
+
+.main-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  z-index: 0;
+  animation: float 8s infinite ease-in-out;
+}
+
+.blob-1 {
+  top: 5%;
+  left: 15%;
+  width: 300px;
+  height: 300px;
+  background: #ffc2cd;
+  animation-delay: 0s;
+}
+
+.blob-2 {
+  bottom: 10%;
+  right: 15%;
+  width: 350px;
+  height: 350px;
+  background: #ffd1dc;
+  animation-delay: 2s;
+}
+
+.blob-3 {
+  top: 40%;
+  left: 40%;
+  width: 200px;
+  height: 200px;
+  background: #fff9fa;
+  opacity: 0.8;
+  animation-delay: 4s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -20px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 .container {
-  background-color: white;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  
   width: 60%;
+  max-width: 900px;
   border-radius: 30px;
-  box-shadow: 0px 10px 40px rgba(226, 70, 106, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(226, 70, 106, 0.15);
+  
   padding: 40px;
   box-sizing: border-box;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(226, 70, 106, 0.25);
+}
+
+.title h1 {
+  font-family: 'Fredoka', cursive;
+  font-size: 3.5rem;
+  color: #e2466a;
+  margin-bottom: 5px;
+  letter-spacing: 2px;
+  text-shadow: 4px 4px 0px rgba(255, 194, 205, 0.6);
+}
+
+.title h5 {
+  margin-top: 0;
+  color: #e2466a;
+  opacity: 0.9;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 form {
@@ -50,28 +136,61 @@ form {
 form input {
   padding: 12px 20px;
   border-radius: 50px;
-  border: 2px solid #ffd1dc;
-  background-color: #fff9fa;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   font-family: 'Poppins', sans-serif;
   color: #5c3a41;
   width: 60%;
   outline: none;
   transition: all 0.3s ease;
   font-size: 1rem;
-}
-
-form input::placeholder {
-  color: #dcb5bc;
+  backdrop-filter: blur(5px);
 }
 
 form input:focus {
   border-color: #e2466a;
-  background-color: white;
-  box-shadow: 0 0 0 4px rgba(226, 70, 106, 0.1);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 4px rgba(226, 70, 106, 0.15);
+  transform: scale(1.02);
 }
 
 .acoes {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.progress-container {
+  width: 80%;
+  margin: 0 auto 30px auto;
+  padding: 0 10px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2466a;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ffc2cd 0%, #e2466a 100%);
+
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  box-shadow: 0 0 10px rgba(226, 70, 106, 0.4);
 }
